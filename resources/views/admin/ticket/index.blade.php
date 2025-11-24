@@ -34,8 +34,8 @@
                                     <tbody>
                                     @foreach ($tickets as $ticket)
                                         <tr>
-                                            <td>{{ $ticket->id }}</td>
-                                            <td>{{ $ticket->user_id ?? '-' }}</td>
+                                            <td><a href="{{ route('tickets.show', $ticket->id) }}">{{ $ticket->id }}</a></td>
+                                            <td>{{ $ticket->replies->first()->user->id ?? '-' }}</td>
                                             <td>{{ $ticket->customer->phone ?? '-' }}</td>
                                             <td>{{ $ticket->customer->email ?? '-' }}</td>
                                             <td>{{ $ticket->status->name ?? '-' }}</td>

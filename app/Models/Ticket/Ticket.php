@@ -6,6 +6,7 @@ use App\Models\Customer\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -14,7 +15,6 @@ class Ticket extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
-        'user_id',
         'customer_id',
         'status_id',
         'subject',
@@ -22,12 +22,9 @@ class Ticket extends Model implements HasMedia
         'manager_replied_at'
     ];
 
-    // Связи
+    protected $casts = ['manager_replied_at' => 'datetime'];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    // Связи
 
     public function customer(): BelongsTo
     {
@@ -37,5 +34,10 @@ class Ticket extends Model implements HasMedia
     public function status(): BelongsTo
     {
         return $this->belongsTo(TicketStatus::class);
+    }
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(TicketReply::class);
     }
 }

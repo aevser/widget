@@ -23,12 +23,10 @@ class TicketService
         $customer = $this->customerRepository->findOrCreate(name: $data['name'], phone: $data['phone'], email: $data['email']);
 
         $ticket = $this->ticketRepository->create(
-            user_id:  null,
-            customer_id: $customer->id,
-            status_id: $this->ticketStatusRepository->findIdByType(TicketStatus::NEW->value),
+            customerId: $customer->id,
+            statusId: $this->ticketStatusRepository->findIdByType(TicketStatus::NEW->value),
             subject: $data['subject'],
-            message: $data['message'],
-            manager_replied_at: null
+            message: $data['message']
         );
 
         if ($attachments && count($attachments) > 0) { $this->ticketAttachmentService->addFiles(ticket: $ticket, uploadedFiles: $attachments); }

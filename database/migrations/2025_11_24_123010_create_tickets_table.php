@@ -43,12 +43,21 @@ return new class extends Migration
         // Заявки
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignId('status_id')->constrained('ticket_statuses')->cascadeOnDelete();
             $table->string('subject');
             $table->text('message');
+            $table->text('manager_replied')->nullable();
             $table->timestamp('manager_replied_at')->nullable();
+            $table->timestamps();
+        });
+
+        // Ответ на заявку
+        Schema::create('ticket_replies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ticket_id')->constrained('tickets')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -60,5 +69,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('tickets');
         Schema::dropIfExists('ticket_statuses');
+        Schema::dropIfExists('ticket_replies');
     }
 };

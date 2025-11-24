@@ -18,7 +18,7 @@ class TicketAttachmentService
     {
         $ticket->addMedia($uploadedFile)
             ->usingFileName($this->generateName(uploadedFile: $uploadedFile))
-            ->toMediaCollection('attachments');
+            ->toMediaCollection('attachments', 'public');
     }
 
     private function generateName(UploadedFile $uploadedFile): string
