@@ -14,12 +14,12 @@ class TicketRepository
 
     public function __construct(private Ticket $ticket){}
 
-    public function getAll(): LengthAwarePaginator
+    public function getAll(array $filters): LengthAwarePaginator
     {
         return $this->ticket->query()
             ->with(self::RELATIONS)
             ->orderBy(Sort::SORT_COLUMN, Sort::SORT_DESC)
-            ->paginate(Pagination::PER_PAGE);
+            ->paginate($filters['perPage'] ?? Pagination::PER_PAGE);
     }
 
     public function getOne(int $id): Ticket

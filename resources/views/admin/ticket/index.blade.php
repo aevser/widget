@@ -32,7 +32,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($tickets as $ticket)
+                                    @forelse ($tickets as $ticket)
                                         <tr>
                                             <td><a href="{{ route('tickets.show', $ticket->id) }}">{{ $ticket->id }}</a></td>
                                             <td>{{ $ticket->replies->first()->user->id ?? '-' }}</td>
@@ -45,9 +45,17 @@
                                             <td>{{ $ticket->created_at ?? '-' }}</td>
                                             <td>{{ $ticket->updated_at ?? '-' }}</td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center">Заявки не найдены</td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
+                            </div>
+
+                            <div class="card-footer">
+                                {{ $tickets->links('components.pagination.pagination') }}
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\V1\Ticket;
+namespace App\Http\Requests\V1\Ticket\TicketReply;
 
 use Illuminate\Foundation\Http\FormRequest;
 

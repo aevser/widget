@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\Ticket\UpdateManagerReplyRequest;
+use App\Http\Requests\Ticket\IndexTicketRequest;
+use App\Http\Requests\V1\Ticket\TicketReply\UpdateManagerReplyRequest;
 use App\Repositories\Ticket\TicketReplyRepository;
 use App\Repositories\Ticket\TicketRepository;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +14,9 @@ class TicketController extends Controller
 {
     public function __construct(private TicketRepository $ticketRepository, private TicketReplyRepository $ticketReplyRepository){}
 
-    public function index(): View
+    public function index(IndexTicketRequest $request): View
     {
-        $tickets = $this->ticketRepository->getAll();
+        $tickets = $this->ticketRepository->getAll($request->validated());
 
         return view('admin.ticket.index', compact('tickets'));
     }
