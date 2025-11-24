@@ -10,6 +10,8 @@
 
             <div class="layout-page">
 
+                @include('components.nav.nav')
+
                 <div class="content-wrapper">
 
                     <div class="container-xxl flex-grow-1 container-p-y">

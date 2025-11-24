@@ -22,5 +22,7 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::get('statistic', [Controllers\Admin\Statistic\StatisticController::class, 'index'])->name('statistic.index');
+
+        Route::post('logout', [Controllers\Admin\Auth\LogoutController::class, 'logout'])->name('admin.logout');
     });
 });
