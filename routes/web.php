@@ -12,7 +12,7 @@ Route::prefix('admin')->group(function () {
         Route::post('login', [Controllers\Admin\Auth\LoginController::class, 'login'])->name('admin.auth');
     });
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(\App\Http\Middleware\RedirectIfUnauthenticated::class)->group(function () {
         Route::prefix('tickets')->group(function () {
             Route::get('/', [Controllers\Admin\Ticket\TicketController::class, 'index'])->name('tickets.index');
             Route::get('{id}', [Controllers\Admin\Ticket\TicketController::class, 'show'])->name('tickets.show');
