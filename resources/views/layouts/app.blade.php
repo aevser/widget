@@ -6,16 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Widget</title>
+    <link rel="stylesheet" href="{{ asset('vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/css/styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>@yield('title')</title>
 </head>
 <body>
 
-<button id="openWidget">✉️ Обратная связь</button>
+@yield('content')
 
-<div id="widgetOverlay">
-    @yield('content')
-</div>
-
-<script src="{{ asset('js/scripts.js') }}"></script>
+<script src="{{ asset('vendor/js/scripts.js') }}"></script>
+<script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
 </body>
 </html>
