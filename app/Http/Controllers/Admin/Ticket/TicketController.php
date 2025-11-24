@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Ticket;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ticket\IndexTicketRequest;
@@ -31,7 +31,7 @@ class TicketController extends Controller
 
     public function show(int $id): View
     {
-        $ticket = $this->ticketRepository->getOne(id: $id);
+        $ticket = $this->ticketRepository->findById(id: $id);
 
         return view('admin.ticket.show', compact('ticket'));
     }

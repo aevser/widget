@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
 
 Route::get('widget', [Controllers\Widget\WidgetController::class, 'show']);
 
@@ -14,11 +14,13 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::prefix('tickets')->group(function () {
-            Route::get('/', [Controllers\Admin\TicketController::class, 'index'])->name('tickets.index');
-            Route::get('{id}', [Controllers\Admin\TicketController::class, 'show'])->name('tickets.show');
+            Route::get('/', [Controllers\Admin\Ticket\TicketController::class, 'index'])->name('tickets.index');
+            Route::get('{id}', [Controllers\Admin\Ticket\TicketController::class, 'show'])->name('tickets.show');
 
-            Route::patch('{id}/status', [Controllers\Admin\TicketController::class, 'status'])->name('tickets.status');
-            Route::post('{id}/reply', [Controllers\Admin\TicketController::class, 'reply'])->name('tickets.reply');
+            Route::patch('{id}/status', [Controllers\Admin\Ticket\TicketController::class, 'status'])->name('tickets.status');
+            Route::post('{id}/reply', [Controllers\Admin\Ticket\TicketController::class, 'reply'])->name('tickets.reply');
         });
+
+        Route::get('statistic', [Controllers\Admin\Statistic\StatisticController::class, 'index'])->name('statistic.index');
     });
 });

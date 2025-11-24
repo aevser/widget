@@ -23,9 +23,28 @@ class TicketRepository
             ->paginate($filters['perPage'] ?? Pagination::PER_PAGE);
     }
 
-    public function getOne(int $id): Ticket
+    public function findById(int $id): Ticket
     {
         return $this->ticket->query()->with(self::RELATIONS)->findOrFail($id);
+    }
+
+    public function findByDay(): int
+    {
+        return $this->ticket->query()->whereDate('created_at', Carbon::today())->count();
+    }
+
+    public function findByWeek(): int
+    {
+        return $this->ticket->query()
+            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->count();
+    }
+
+    public function findByMonth(): int
+    {
+        return $this->ticket->query()
+            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->count();
     }
 
     public function create($customerId, int $statusId, string $subject, string $message): Ticket

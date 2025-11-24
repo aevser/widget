@@ -48,8 +48,14 @@
     <ul class="menu-inner py-1">
         <li class="menu-item">
             <a href="{{ route('tickets.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-support"></i>
                 <div data-i18n="Analytics">Список заявок</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ route('statistic.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+                <div data-i18n="Analytics">Статистика</div>
             </a>
         </li>
     </ul>
