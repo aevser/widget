@@ -13,9 +13,12 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware('auth')->group(function () {
-        Route::get('tickets', [Controllers\Admin\TicketController::class, 'index'])->name('tickets.index');
-        Route::get('tickets/{id}', [Controllers\Admin\TicketController::class, 'show'])->name('tickets.show');
+        Route::prefix('tickets')->group(function () {
+            Route::get('/', [Controllers\Admin\TicketController::class, 'index'])->name('tickets.index');
+            Route::get('{id}', [Controllers\Admin\TicketController::class, 'show'])->name('tickets.show');
 
-        Route::post('tickets/{id}/reply', [Controllers\Admin\TicketController::class, 'reply'])->name('tickets.reply');
+            Route::patch('{id}/status', [Controllers\Admin\TicketController::class, 'status'])->name('tickets.status');
+            Route::post('{id}/reply', [Controllers\Admin\TicketController::class, 'reply'])->name('tickets.reply');
+        });
     });
 });

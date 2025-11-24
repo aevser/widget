@@ -38,7 +38,22 @@
                                             <td>{{ $ticket->replies->first()->user->id ?? '-' }}</td>
                                             <td>{{ $ticket->customer->phone ?? '-' }}</td>
                                             <td>{{ $ticket->customer->email ?? '-' }}</td>
-                                            <td>{{ $ticket->status->name ?? '-' }}</td>
+                                            <td>
+                                                <form action="{{ route('tickets.status', $ticket->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <select name="status_id" class="form-select form-select-sm @error('status_id') is-invalid @enderror" onchange="this.form.submit()" style="width: auto; display: inline-block;">
+                                                        @foreach($statuses as $status)
+                                                            <option value="{{ $status->id }}" {{ $ticket->status_id == $status->id ? 'selected' : '' }}>
+                                                                {{ $status->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('status_id')
+                                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                                    @enderror
+                                                </form>
+                                            </td>
                                             <td>{{ $ticket->subject ?? '-' }}</td>
                                             <td>{{ $ticket->message ?? '-' }}</td>
                                             <td>{{ $ticket->manager_replied_at ?? '-' }}</td>

@@ -18,7 +18,7 @@ class TicketRepository
     {
         return $this->ticket->query()
             ->with(self::RELATIONS)
-            ->orderBy(Sort::SORT_COLUMN, Sort::SORT_DESC)
+            ->orderBy(Sort::SORT_COLUMN_ID, Sort::SORT_DESC)
             ->paginate($filters['perPage'] ?? Pagination::PER_PAGE);
     }
 
@@ -32,7 +32,16 @@ class TicketRepository
         return $this->ticket->query()->create(['customer_id' => $customerId, 'status_id' => $statusId, 'subject' => $subject, 'message' => $message]);
     }
 
-    public function update(int $id): Ticket
+    public function updateStatus(int $id, int $statusId): Ticket
+    {
+        $ticket = $this->ticket->query()->findOrFail($id);
+
+        $ticket->update(['status_id' => $statusId]);
+
+        return $ticket->fresh(self::RELATIONS);
+    }
+
+    public function updateManagerReply(int $id): Ticket
     {
         $ticket = $this->ticket->query()->findOrFail($id);
 
