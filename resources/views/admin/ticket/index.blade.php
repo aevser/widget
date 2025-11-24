@@ -14,7 +14,11 @@
 
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
-                            <h5 class="card-header">Список заявок</h5>
+                            <div class="card-header d-flex justify-content-between">
+                                <h5 class="card-header">Список заявок</h5>
+
+                                @include('components.filter.ticket.filter')
+                            </div>
                             <div class="table-responsive text-nowrap">
                                 <table class="table" style="text-align: center">
                                     <thead>
@@ -39,10 +43,14 @@
                                             <td>{{ $ticket->customer->phone ?? '-' }}</td>
                                             <td>{{ $ticket->customer->email ?? '-' }}</td>
                                             <td>
-                                                <form action="{{ route('tickets.status', $ticket->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('tickets.status', $ticket->id) }}" method="POST" class="d-inline status-form">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <select name="status_id" class="form-select form-select-sm @error('status_id') is-invalid @enderror" onchange="this.form.submit()" style="width: auto; display: inline-block;">
+
+                                                    <select name="status_id"
+                                                            class="form-select form-select-sm @error('status_id') is-invalid @enderror"
+                                                            onchange="submitFormWithParams(this.form)"
+                                                            style="width: auto; display: inline-block; text-align: center; text-align-last: center;">
                                                         @foreach($statuses as $status)
                                                             <option value="{{ $status->id }}" {{ $ticket->status_id == $status->id ? 'selected' : '' }}>
                                                                 {{ $status->name }}
@@ -70,7 +78,7 @@
                             </div>
 
                             <div class="card-footer">
-                                {{ $tickets->links('components.pagination.pagination') }}
+                                {{ $tickets->appends(request()->query())->links('components.pagination.pagination') }}
                             </div>
                         </div>
                     </div>
@@ -82,5 +90,25 @@
 
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
+
+    <script>
+        function submitFormWithParams(form) {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            form.querySelectorAll('input[name^="redirect_params"]').forEach(input => input.remove());
+
+            for (const [key, value] of urlParams.entries()) {
+                if (key !== '_token' && key !== '_method') {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'redirect_params[' + key + ']';
+                    input.value = value;
+                    form.appendChild(input);
+                }
+            }
+
+            form.submit();
+        }
+    </script>
 
 @endsection

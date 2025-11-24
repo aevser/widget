@@ -18,6 +18,7 @@ class TicketRepository
     {
         return $this->ticket->query()
             ->with(self::RELATIONS)
+            ->applyFilters($filters)
             ->orderBy(Sort::SORT_COLUMN_ID, Sort::SORT_DESC)
             ->paginate($filters['perPage'] ?? Pagination::PER_PAGE);
     }

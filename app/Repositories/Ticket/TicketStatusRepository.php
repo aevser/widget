@@ -2,20 +2,19 @@
 
 namespace App\Repositories\Ticket;
 
-use App\Constants\Pagination;
 use App\Constants\Sort;
 use App\Models\Ticket\TicketStatus;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class TicketStatusRepository
 {
     public function __construct(private TicketStatus $ticketStatus){}
 
-    public function getAll(): LengthAwarePaginator
+    public function getAll(): Collection
     {
         return $this->ticketStatus->query()
             ->orderBy(Sort::SORT_COLUMN_TYPE, Sort::SORT_DESC)
-            ->paginate(Pagination::PER_PAGE);
+            ->get();
     }
 
     public function findIdByType(string $type): ?int

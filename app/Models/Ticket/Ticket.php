@@ -3,7 +3,7 @@
 namespace App\Models\Ticket;
 
 use App\Models\Customer\Customer;
-use App\Models\User;
+use App\Traits\Ticket\Filter\Filter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Ticket extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, Filter;
 
     protected $fillable = [
         'customer_id',
