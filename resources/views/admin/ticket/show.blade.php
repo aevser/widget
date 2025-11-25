@@ -74,15 +74,11 @@
                                     <div class="card">
                                         <h5 class="card-header">Прикрепленные файлы</h5>
                                         <div class="card-body">
-                                            @php
-                                                $media = $ticket->getMedia('attachments');
-                                            @endphp
+                                            @php $media = $ticket->getMedia('attachments'); @endphp
                                             @if($media->count() > 0)
                                                 <div class="list-group list-group-flush">
                                                     @foreach($media as $file)
-                                                        <a href="{{ $file->getUrl() }}"
-                                                           target="_blank"
-                                                           download
+                                                        <a href="{{ route('tickets.attachment.download', ['id' => $ticket->id, 'media' => $file->id]) }}"
                                                            class="list-group-item list-group-item-action d-flex align-items-center px-0 py-2">
                                                             <i class="bx bx-file me-2 fs-5"></i>
                                                             <div class="flex-grow-1 text-truncate">

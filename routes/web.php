@@ -15,10 +15,14 @@ Route::prefix('admin')->group(function () {
     Route::middleware(\App\Http\Middleware\RedirectIfUnauthenticated::class)->group(function () {
         Route::prefix('tickets')->group(function () {
             Route::get('/', [Controllers\Admin\Ticket\TicketController::class, 'index'])->name('tickets.index');
+
             Route::get('{id}', [Controllers\Admin\Ticket\TicketController::class, 'show'])->name('tickets.show');
 
             Route::patch('{id}/status', [Controllers\Admin\Ticket\TicketController::class, 'status'])->name('tickets.status');
+
             Route::post('{id}/reply', [Controllers\Admin\Ticket\TicketController::class, 'reply'])->name('tickets.reply');
+
+            Route::get('{id}/attachment/{media}/download', [Controllers\Admin\Ticket\TicketController::class, 'download'])->name('tickets.attachment.download');
         });
 
         Route::get('statistic', [Controllers\Admin\Statistic\StatisticController::class, 'index'])->name('statistic.index');

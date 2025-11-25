@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Ticket\IndexTicketRequest;
 use App\Http\Requests\Ticket\TicketStatus\UpdateTicketStatusRequest;
 use App\Http\Requests\V1\Ticket\TicketReply\UpdateManagerReplyRequest;
+use App\Models\Ticket\Ticket;
 use App\Repositories\Ticket\TicketReplyRepository;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketStatusRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class TicketController extends Controller
 {
@@ -50,5 +53,10 @@ class TicketController extends Controller
          $this->ticketRepository->updateManagerReply(id: $id);
 
         return redirect()->route('tickets.show', $id);
+    }
+
+    public function download(int $id, Media $media): BinaryFileResponse
+    {
+        return response()->download($media->getPath(), $media->file_name);
     }
 }
