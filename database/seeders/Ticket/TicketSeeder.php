@@ -20,7 +20,7 @@ class TicketSeeder extends Seeder
             for ($i = 0; $i < 5; $i++) {
                 Ticket::query()->create([
                     'customer_id' => $customer->id,
-                    'status_id' => 1,
+                    'status_id' => $faker->randomElement([1, 2, 3]),
                     'subject' => $faker->sentence,
                     'message' => $faker->paragraph
                 ]);

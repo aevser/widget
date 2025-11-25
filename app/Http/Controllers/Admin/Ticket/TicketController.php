@@ -10,6 +10,8 @@ use App\Models\Ticket\Ticket;
 use App\Repositories\Ticket\TicketReplyRepository;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketStatusRepository;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -17,6 +19,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class TicketController extends Controller
 {
+    use AuthorizesRequests, ValidatesRequests;
+
     public function __construct(
         private TicketRepository $ticketRepository,
         private TicketStatusRepository $ticketStatusRepository,
@@ -34,6 +38,8 @@ class TicketController extends Controller
 
     public function show(int $id): View
     {
+        $this->authorize('view', Ticket::class);
+
         $ticket = $this->ticketRepository->findById(id: $id);
 
         return view('admin.ticket.show', compact('ticket'));
@@ -48,6 +54,8 @@ class TicketController extends Controller
 
     public function reply(int $id, UpdateManagerReplyRequest $request): RedirectResponse
     {
+        $this->authorize('reply', Ticket::class);
+
          $this->ticketReplyRepository->create(ticketId: $id, data: $request->validated());
 
          $this->ticketRepository->updateManagerReply(id: $id);

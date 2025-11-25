@@ -3,7 +3,10 @@
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
-Route::get('widget', [Controllers\Widget\WidgetController::class, 'show']);
+// Стартовая страница
+Route::get('/', function () {
+    return view('widget.show');
+})->name('home');
 
 Route::prefix('admin')->group(function () {
     Route::middleware('guest')->group(function () {

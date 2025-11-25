@@ -21,6 +21,8 @@ class UserSeeder extends Seeder
             $admin = User::query()->create($admin);
 
             $admin->assignRole('admin');
+
+            $admin->givePermissionTo(['tickets.view', 'tickets.show', 'tickets.reply']);
         }
 
         $managers = [
@@ -31,6 +33,8 @@ class UserSeeder extends Seeder
             $manager = User::query()->create($manager);
 
             $manager->assignRole('manager');
+
+            $manager->givePermissionTo(['tickets.view', 'tickets.show', 'tickets.reply']);
         }
     }
 }
