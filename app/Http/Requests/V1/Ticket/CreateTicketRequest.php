@@ -28,7 +28,11 @@ class CreateTicketRequest extends FormRequest
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:5000'],
             'files' => ['nullable', 'array', 'max:5'],
-            'files.*' => ['file', 'max:10240', 'mimes:pdf,doc,docx,jpeg,jpg,png,gif']
+            'files.*' => [
+                'file',
+                'max:10240',
+                'mimetypes:application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/jpg,image/png,image/gif'
+            ]
         ];
     }
 
