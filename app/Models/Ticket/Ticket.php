@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Ticket extends Model implements HasMedia
 {
@@ -23,6 +24,26 @@ class Ticket extends Model implements HasMedia
     ];
 
     protected $casts = ['manager_replied_at' => 'datetime'];
+
+    protected $appends = ['attachments_urls'];
+
+    protected $hidden = ['media'];
+
+    // Вспомогательные методы
+
+    protected function attachmentsUrls(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getMedia('attachments')->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'url' => $media->getUrl(),
+                    ];
+                })->toArray();
+            }
+        );
+    }
 
     // Связи
 

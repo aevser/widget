@@ -21,6 +21,7 @@ class IndexTicketResource extends JsonResource
             'subject' => $this->subject,
             'message' => $this->message,
             'manager_replied_at' => $this->manager_replied_at,
+            'attachments' => $this->attachments_urls,
             'customer' => [
                 'id' => $this->customer->id,
                 'name' => $this->customer->name,
