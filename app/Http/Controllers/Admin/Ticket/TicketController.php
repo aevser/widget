@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\Ticket;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ticket\IndexTicketRequest;
+use App\Http\Requests\Ticket\TicketReply\UpdateManagerReplyRequest;
 use App\Http\Requests\Ticket\TicketStatus\UpdateTicketStatusRequest;
-use App\Http\Requests\V1\Ticket\TicketReply\UpdateManagerReplyRequest;
 use App\Models\Ticket\Ticket;
 use App\Repositories\Ticket\TicketReplyRepository;
 use App\Repositories\Ticket\TicketRepository;

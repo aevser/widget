@@ -7,7 +7,7 @@ use App\Models\Ticket\Ticket;
 use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketStatusRepository;
-use App\Services\Ticket\Attachment\TicketAttachmentService;
+use App\Services\Ticket\TicketAttachment\TicketAttachmentService;
 
 class TicketService
 {

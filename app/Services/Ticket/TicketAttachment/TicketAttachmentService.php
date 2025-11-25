@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Ticket\Attachment;
+namespace App\Services\Ticket\TicketAttachment;
 
 use App\Models\Ticket\Ticket;
 use Illuminate\Http\UploadedFile;
