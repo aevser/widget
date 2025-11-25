@@ -1,59 +1,161 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Widget - Виджет для отправки заявок
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Widget - виджет для отправки заявок на Laravel с контейнеризацией Docker, включающий в себя систему управления заявками с административной панелью и REST API.
 
-## About Laravel
+Админ-панель отрисована с помощью шаблона Sneat.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Возможности
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Административная панель
+- **Авторизация** - система ролей и разрешений (admin, manager)
+- **Список заявок** - просмотр всех обращений с фильтрацией и пагинацией
+- **Фильтрация** - по статусу, дате, email, телефон
+- **Просмотр заявки** - детальная информация о конкретном обращении
+- **Смена статуса** - управление статусами заявок
+- **Ответ на заявку** - возможность ответить клиенту
+- **Скачивание вложений** - загрузка прикрепленных файлов
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### API
+- **REST API** для создания заявок
+- **Swagger документация** - интерактивная документация API
+- **Загрузка файлов** - поддержка множественных вложений (до 5 файлов, макс. 10 МБ)
 
-## Learning Laravel
+## Технологический стек
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Архитектура: Repository - Service - Controller
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Почему такая архитектура?**
+- **Repository** - изоляция логики работы с базой данных, упрощение тестирования
+- **Service** - бизнес-логика приложения, независимая от источника данных
+- **Controller** - тонкий слой для обработки HTTP запросов
 
-## Laravel Sponsors
+Это обеспечивает:
+- Разделение ответственности (Single Responsibility Principle)
+- Легкость тестирования и поддержки
+- Возможность повторного использования кода
+- Простоту замены источников данных
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Используемые библиотеки
 
-### Premium Partners
+**Spatie Laravel Permission**
+- Гибкая система ролей и разрешений
+- Простое управление доступом
+- Проверка прав через политики и middleware
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+**Spatie Laravel Media Library**
+- Удобная работа с файлами и медиа
+- Автоматическая оптимизация изображений
+- Хранение метаданных файлов
+- Простое API для загрузки/получения файлов
 
-## Contributing
+## Быстрый Старт
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Установка
 
-## Code of Conduct
+1. **Клонирование репозитория**
+```bash
+git clone <repository-url>
+cd widget
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Настройка переменных окружения**
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+3. **Установка зависимостей**
+```bash
+composer install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Генерация ключа приложения**
+```bash
+php artisan key:generate
+```
 
-## License
+5. **Запуск приложения**
+```bash
+# Сборка и запуск всех контейнеров
+docker-compose up -d --build
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. **Инициализация базы данных**
+```bash
+# Выполнение миграций и заполнение базы данных
+docker-compose exec app php artisan migrate:fresh --seed
+
+# Создание символической ссылки для загрузки файлов 
+docker-compose exec app php artisan storage:link
+```
+
+7. **Доступ к приложению**
+- **Swagger API**: /api/documentation
+- **База данных**: SQLite (database/database.sqlite)
+
+### Тестовые учетные данные
+
+**Администратор:**
+- Email: 1@1.ru
+- Password: 123456
+
+**Менеджер:**
+- Email: 2@2.ru
+- Password: 123456
+
+## API Endpoints
+
+### Создание заявки
+```bash
+POST /api/v1/tickets
+Content-Type: multipart/form-data
+
+Параметры:
+- name: string (обязательно)
+- email: string (обязательно)
+- phone: string (обязательно, формат: +79991234567)
+- subject: string (обязательно)
+- message: string (обязательно)
+- files[]: array (опционально, макс. 5 файлов по 10 МБ)
+```
+
+Полная документация доступна в Swagger UI.
+
+## Управление Контейнерами
+```bash
+# Остановка контейнеров
+docker-compose down
+
+# Перезапуск контейнеров
+docker-compose restart
+
+# Просмотр логов
+docker-compose logs -f
+
+# Доступ к оболочке контейнера приложения
+docker-compose exec app bash
+
+# Выполнение команд Artisan
+docker-compose exec app php artisan [command]
+```
+
+## Структура проекта
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/          # Контроллеры админ-панели
+│   │   └── Api/V1/         # API контроллеры
+│   ├── Requests/           # Form Request валидация
+│   └── Resources/          # API Resources
+├── Models/                 # Eloquent модели
+├── Policies/               # Политики авторизации
+├── Repositories/           # Репозитории для работы с данными
+└── Services/               # Бизнес-логика
+```
+
+## Разрешения (Permissions)
+
+- `tickets.view` - просмотр списка заявок
+- `tickets.show` - просмотр конкретной заявки
+- `tickets.reply` - ответ на заявку
+
