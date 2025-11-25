@@ -124,12 +124,21 @@
                                         <div class="card-body">
                                             @if($ticket->replies && $ticket->replies->count() > 0)
                                                 @foreach($ticket->replies as $reply)
-                                                    <div class="mb-3 p-3 border rounded">
+                                                    <div class="mb-3 p-3 border rounded reply-item">
                                                         <div class="d-flex justify-content-between mb-2">
                                                             <strong>{{ $reply->user->name ?? 'Система' }}</strong>
                                                             <small class="text-muted">{{ $reply->created_at->format('d.m.Y в H:i') }}</small>
                                                         </div>
-                                                        <p class="mb-0">{{ $reply->message }}</p>
+                                                        <div class="reply-content" data-full-text="{{ $reply->message }}">
+                                                            <p class="mb-0 reply-text">
+                                                                {{ Str::limit($reply->message, 300) }}
+                                                            </p>
+                                                            @if(strlen($reply->message) > 300)
+                                                                <button type="button" class="btn btn-link btn-sm p-0 mt-2 toggle-reply">
+                                                                    Показать полностью
+                                                                </button>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 @endforeach
                                             @else
@@ -243,5 +252,30 @@
             max-width: 100%;
         }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-reply');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const replyContent = this.closest('.reply-content');
+                    const replyText = replyContent.querySelector('.reply-text');
+                    const fullText = replyContent.dataset.fullText;
+                    const isExpanded = this.dataset.expanded === 'true';
+
+                    if (isExpanded) {
+                        replyText.textContent = fullText.substring(0, 300) + '...';
+                        this.textContent = 'Показать полностью';
+                        this.dataset.expanded = 'false';
+                    } else {
+                        replyText.textContent = fullText;
+                        this.textContent = 'Скрыть';
+                        this.dataset.expanded = 'true';
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection
