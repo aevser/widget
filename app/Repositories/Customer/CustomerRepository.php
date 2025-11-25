@@ -8,7 +8,7 @@ class CustomerRepository
 {
     public function __construct(private Customer $customer){}
 
-    public function findOrCreate(string $name, ?string $phone, ?string $email): Customer
+    public function findOrCreate(string $name, string $phone, string $email): Customer
     {
         $customer = $this->customer->query()
             ->where(function ($query) use ($phone, $email) {

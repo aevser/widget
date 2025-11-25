@@ -69,4 +69,17 @@ class TicketRepository
 
         return $ticket->fresh(self::RELATIONS);
     }
+
+    public function hasInLastDay(string $phone, string $email): bool
+    {
+        return $this->ticket->query()
+            ->whereHas('customer', function ($query) use ($phone, $email) {
+                $query->where(function ($q) use ($phone, $email) {
+                    if ($phone) { $q->where('phone', $phone); }
+                    if ($email) { $q->orWhere('email', $email); }
+                });
+            })
+            ->where('created_at', '>', Carbon::now()->subDay())
+            ->exists();
+    }
 }
