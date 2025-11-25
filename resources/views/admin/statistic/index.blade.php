@@ -12,7 +12,7 @@
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
 
-                        <h4 class="mb-4">Статистика заявок</h4>
+                        <h3 class="mb-4">Статистика заявок</h3>
 
                         <div class="row">
                             <div class="col-md-4">

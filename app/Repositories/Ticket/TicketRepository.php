@@ -58,7 +58,7 @@ class TicketRepository
 
         $ticket->update(['status_id' => $statusId]);
 
-        return $ticket->fresh(self::RELATIONS);
+        return $ticket->load(self::RELATIONS);
     }
 
     public function updateManagerReply(int $id): Ticket
@@ -67,17 +67,15 @@ class TicketRepository
 
         $ticket->update(['manager_replied_at' => Carbon::now()]);
 
-        return $ticket->fresh(self::RELATIONS);
+        return $ticket->load(self::RELATIONS);
     }
 
     public function hasInLastDay(string $phone, string $email): bool
     {
         return $this->ticket->query()
             ->whereHas('customer', function ($query) use ($phone, $email) {
-                $query->where(function ($q) use ($phone, $email) {
-                    if ($phone) { $q->where('phone', $phone); }
-                    if ($email) { $q->orWhere('email', $email); }
-                });
+                $query->where('phone', $phone)
+                    ->orWhere('email', $email);
             })
             ->where('created_at', '>', Carbon::now()->subDay())
             ->exists();

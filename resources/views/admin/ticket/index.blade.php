@@ -17,7 +17,7 @@
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <h5 class="card-header">Список заявок</h5>
+                                <h3 class="card-header">Список заявок</h3>
 
                                 @include('components.filter.ticket.filter')
                             </div>

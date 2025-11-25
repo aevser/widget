@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Ticket;
 
 use App\Repositories\Ticket\TicketRepository;
 
@@ -8,19 +8,15 @@ class TicketValidationService
 {
     public function __construct(private TicketRepository $ticketRepository){}
 
-    public function hasLimit(string $phone, string $email): ?array
+    public function validateLimit(string $phone, string $email): void
     {
         if($this->ticketRepository->hasInLastDay(phone: $phone, email: $email)) {
-
-            return [
+            abort(response()->json([
                 'success' => false,
                 'error' => [
                     'message' => 'Ошибка создания заявки. Превышен лимит с данного E-mail / Телефона.'
-                ],
-                'code' => 429
-            ];
+                ]
+            ], 429));
         }
-
-        return null;
     }
 }

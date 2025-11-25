@@ -7,6 +7,9 @@ use Illuminate\Http\UploadedFile;
 
 class TicketAttachmentService
 {
+    private const string COLLECTION_NAME = 'attachments';
+    private const string DISK_NAME = 'public';
+
     public function addFiles(Ticket $ticket, array $uploadedFiles): void
     {
         foreach ($uploadedFiles as $uploadedFile) {
@@ -18,7 +21,7 @@ class TicketAttachmentService
     {
         $ticket->addMedia($uploadedFile)
             ->usingFileName($this->generateName(uploadedFile: $uploadedFile))
-            ->toMediaCollection('attachments', 'public');
+            ->toMediaCollection(self::COLLECTION_NAME, self::DISK_NAME);
     }
 
     private function generateName(UploadedFile $uploadedFile): string

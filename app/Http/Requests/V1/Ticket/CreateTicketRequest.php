@@ -24,7 +24,7 @@ class CreateTicketRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'phone' => ['required', 'string', 'regex:/^\+[1-9]\d{1,14}$/'],
+            'phone' => ['required', 'string', 'regex:/^\+[1-9]\d{9,14}$/', 'min:11', 'max:16'],
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string', 'max:5000'],
             'files' => ['nullable', 'array', 'max:5'],
@@ -43,6 +43,8 @@ class CreateTicketRequest extends FormRequest
 
             'phone.required' => 'Укажите ваш телефон',
             'phone.regex' => 'Укажите телефон в международном формате (например: +1234567890)',
+            'phone.min' => 'Телефон должен содержать минимум 11 символов',
+            'phone.max' => 'Телефон не должен превышать 16 символов',
 
             'subject.required' => 'Укажите тему обращения',
             'subject.max' => 'Тема не должна превышать 255 символов',

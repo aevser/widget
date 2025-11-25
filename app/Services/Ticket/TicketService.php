@@ -8,7 +8,6 @@ use App\Repositories\Customer\CustomerRepository;
 use App\Repositories\Ticket\TicketRepository;
 use App\Repositories\Ticket\TicketStatusRepository;
 use App\Services\Ticket\Attachment\TicketAttachmentService;
-use App\Services\TicketValidationService;
 
 class TicketService
 {
@@ -20,11 +19,9 @@ class TicketService
         private TicketValidationService $ticketValidationService
     ){}
 
-    public function create(array $data, ?array $attachments = null): Ticket|array
+    public function create(array $data, ?array $attachments = null): Ticket
     {
-        $validation = $this->ticketValidationService->hasLimit(phone: $data['phone'], email: $data['email']);
-
-        if ($validation) { return $validation; }
+        $this->ticketValidationService->validateLimit(phone: $data['phone'], email: $data['email']);
 
         $customer = $this->customerRepository->findOrCreate(name: $data['name'], phone: $data['phone'], email: $data['email']);
 

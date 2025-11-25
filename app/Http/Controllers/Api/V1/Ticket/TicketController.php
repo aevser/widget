@@ -16,8 +16,6 @@ class TicketController extends Controller
     {
         $result = $this->ticketService->create($request->validated(), attachments: $request->file('files'));
 
-        if (is_array($result)) { return response()->json(['success' => $result['success'], 'error' => $result['error']], $result['code']); }
-
         return response()->json(IndexTicketResource::make($result), JsonResponse::HTTP_CREATED);
     }
 }
